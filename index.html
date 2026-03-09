@@ -28,6 +28,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             border-radius: 50%;
+            transition: background 0.5s linear;
+            /* add a gentle pulse so seconds ring breathes */
+            animation: pulse 2s infinite;
         }
 
         .ring.hours {
@@ -43,6 +46,13 @@
         .ring.seconds {
             width: 160px;
             height: 160px;
+        }
+
+        /* keyframes for pulse animation */
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(0.98); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
 
         /* labels for rings */
@@ -73,6 +83,14 @@
         <div class="label minutes">M</div>
         <div class="label seconds">S</div>
     </div>
+    <!-- textual readout of the current time -->
+    <div id="timeText" style="margin-top:1rem; font-size:1.25rem;"></div>
+    <!-- legend for color meaning -->
+    <div id="legend" style="margin-top:0.5rem; font-size:1rem; display:flex; gap:1rem;">
+        <span><span style="display:inline-block;width:12px;height:12px;background:#ff6b6b;margin-right:0.25rem;"></span>Hours</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#4ecdc4;margin-right:0.25rem;"></span>Minutes</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#1a535c;margin-right:0.25rem;"></span>Seconds</span>
+    </div>
 
     <script>
         // update rings based on current time
@@ -97,6 +115,17 @@
         // tick every second
         setInterval(updateClock, 1000);
         updateClock();
+
+        // update textual display as well
+        function updateText() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2,'0');
+            const m = String(now.getMinutes()).padStart(2,'0');
+            const s = String(now.getSeconds()).padStart(2,'0');
+            document.getElementById('timeText').textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(updateText, 1000);
+        updateText();
     </script>
 </body>
 </html>
