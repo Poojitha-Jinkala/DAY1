@@ -4,8 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poojitha</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            background: #f7f7f7;
+        }
+
+        .clock {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .ring.hours {
+            width: 300px;
+            height: 300px;
+        }
+
+        .ring.minutes {
+            width: 230px;
+            height: 230px;
+        }
+
+        .ring.seconds {
+            width: 160px;
+            height: 160px;
+        }
+
+        /* labels for rings */
+        .label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: #333;
+            pointer-events: none;
+        }
+        .label.hours { font-size: 2rem; }
+        .label.minutes { font-size: 1.5rem; }
+        .label.seconds { font-size: 1rem; }
+    </style>
 </head>
 <body>
-    <h1>poojitha</h1>
+    <h1>Poojitha clock</h1>
+
+    <!-- Unique digital clock without numbers or hands -->
+    <div class="clock" id="clock">
+        <div class="ring hours" id="hoursRing"></div>
+        <div class="ring minutes" id="minutesRing"></div>
+        <div class="ring seconds" id="secondsRing"></div>
+        <!-- labels help distinguish the rings without numbers -->
+        <div class="label hours">H</div>
+        <div class="label minutes">M</div>
+        <div class="label seconds">S</div>
+    </div>
+
+    <script>
+        // update rings based on current time
+        function updateClock() {
+            const now = new Date();
+            const hrs = now.getHours();
+            const mins = now.getMinutes();
+            const secs = now.getSeconds();
+            const hoursFraction = hrs / 24; // fraction of full day
+            const minutesFraction = mins / 60;
+            const secondsFraction = secs / 60;
+
+            const hoursRing = document.getElementById('hoursRing');
+            const minutesRing = document.getElementById('minutesRing');
+            const secondsRing = document.getElementById('secondsRing');
+
+            hoursRing.style.background = `conic-gradient(#ff6b6b ${hoursFraction * 360}deg, transparent 0)`;
+            minutesRing.style.background = `conic-gradient(#4ecdc4 ${minutesFraction * 360}deg, transparent 0)`;
+            secondsRing.style.background = `conic-gradient(#1a535c ${secondsFraction * 360}deg, transparent 0)`;
+        }
+
+        // tick every second
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
